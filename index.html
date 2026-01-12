@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIN - Perjuangan Inspirasi Nyata</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-container">
+            <div class="logo-section">
+                <h1 class="logo">PIN</h1>
+                <p class="tagline" id="tagline">PERJUANGAN INSPIRASI NYATA</p>
+            </div>
+            
+            <button class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link" data-id="nav-home">Home</a></li>
+                <li><a href="#about" class="nav-link" data-id="nav-about">About</a></li>
+                <li><a href="#skills" class="nav-link" data-id="nav-skills">Skills</a></li>
+                <li><a href="#portfolio" class="nav-link" data-id="nav-portfolio">Portfolio</a></li>
+                <li><a href="#contact" class="nav-link" data-id="nav-contact">Contact</a></li>
+                <li class="admin-toggle">
+                    <button id="adminToggleBtn" class="admin-btn" title="Admin Mode">🔐</button>
+                </li>
+                <li class="language-toggle">
+                    <button id="langToggle" class="lang-btn">ID / EN</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Admin Modal -->
+    <div id="adminModal" class="modal" style="display: none;">
+        <div class="modal-content admin-modal">
+            <span class="close" id="closeAdminModal">&times;</span>
+            <h2 id="adminTitle">Admin Login</h2>
+            
+            <div id="loginForm" class="admin-section">
+                <input type="password" id="adminPassword" placeholder="Enter admin password" class="input-field">
+                <button id="loginBtn" class="btn btn-primary" id="loginBtn-id">Login</button>
+                <p id="loginHint" style="font-size: 0.85rem; color: #999; margin-top: 10px;">Hint: password = "pin2024"</p>
+            </div>
+
+            <div id="adminPanel" class="admin-section" style="display: none;">
+                <button id="logoutBtn" class="btn btn-secondary" style="width: 100%; margin-bottom: 20px;">Logout</button>
+
+                <!-- Hero Section Edit -->
+                <div class="admin-subsection">
+                    <h3 id="editHeroTitle">Edit Hero Section</h3>
+                    <div class="form-group">
+                        <label id="uploadPhotoLabel">Upload Profile Photo:</label>
+                        <input type="file" id="profilePhotoInput" accept="image/*" class="input-field">
+                        <button id="uploadPhotoBtn" class="btn btn-primary">Upload Photo</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label id="editNameLabel">Name:</label>
+                        <input type="text" id="heroName" class="input-field">
+                    </div>
+
+                    <div class="form-group">
+                        <label id="editSubtitleLabel">Subtitle:</label>
+                        <textarea id="heroSubtitle" class="input-field" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label id="editMotivationLabel">Motivation Text:</label>
+                        <textarea id="heroMotivation" class="input-field" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label id="editBibleVerseLabel">Bible Verse Reference:</label>
+                        <input type="text" id="heroBibleVerse" class="input-field" placeholder="e.g., Roma 5:3-4">
+                    </div>
+
+                    <div class="form-group">
+                        <label id="editBibleTextLabel">Bible Verse Text:</label>
+                        <textarea id="heroBibleText" class="input-field" rows="4"></textarea>
+                    </div>
+
+                    <button id="saveHeroBtn" class="btn btn-primary" style="width: 100%;">Save Hero Changes</button>
+                </div>
+
+                <!-- Portfolio Management -->
+                <div class="admin-subsection">
+                    <h3 id="managePortfolioTitle">Manage Portfolio</h3>
+                    
+                    <div class="form-group">
+                        <label id="projectCoverLabel">Project Cover Image:</label>
+                        <input type="file" id="projectCoverInput" accept="image/*" class="input-field">
+                    </div>
+
+                    <div class="form-group">
+                        <label id="projectTitleLabel">Project Title:</label>
+                        <input type="text" id="projectTitle" class="input-field">
+                    </div>
+
+                    <div class="form-group">
+                        <label id="projectSubtitleLabel">Project Subtitle:</label>
+                        <input type="text" id="projectSubtitle" class="input-field">
+                    </div>
+
+                    <div class="form-group">
+                        <label id="projectDescLabel">Project Description:</label>
+                        <textarea id="projectDescription" class="input-field" rows="4"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label id="projectCategoryLabel">Project Category:</label>
+                        <input type="text" id="projectCategory" class="input-field">
+                    </div>
+
+                    <div class="form-group">
+                        <label id="projectFilesLabel">Upload Project Files:</label>
+                        <input type="file" id="projectFilesInput" multiple class="input-field">
+                        <small id="filesHint">Select multiple files of any type</small>
+                    </div>
+
+                    <div id="filesList" style="margin: 10px 0; font-size: 0.9rem;"></div>
+
+                    <button id="addProjectBtn" class="btn btn-primary" style="width: 100%; margin-bottom: 10px;">Add New Project</button>
+
+                    <hr style="border-color: #333; margin: 20px 0;">
+
+                    <h4 id="editExistingTitle">Edit Existing Projects:</h4>
+                    <select id="projectSelect" class="input-field" style="width: 100%; margin-bottom: 10px;">
+                        <option value="">-- Select a project --</option>
+                    </select>
+
+                    <button id="deleteProjectBtn" class="btn btn-danger" style="width: 100%;">Delete Selected Project</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="profile-photo-container">
+                <img id="profilePhoto" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Crect fill='%23333' width='150' height='150'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%23666' font-size='14' font-family='Arial'%3EProfile Photo%3C/text%3E%3C/svg%3E" alt="Profile Photo">
+            </div>
+            
+            <h1 id="heroName" class="hero-name">Pinsensius Andreas</h1>
+            
+            <p id="heroSubtitle" class="hero-subtitle">Pejuang Inspirasi Nyata - Mengubah Perjuangan Menjadi Inspirasi</p>
+
+            <div class="motivation-section">
+                <p id="heroMotivation" class="motivation-text">"Dalam setiap perjuangan ada disiplin, dalam setiap disiplin ada iman, dan dalam setiap iman ada inspirasi nyata."</p>
+                <div class="accent-line"></div>
+            </div>
+
+            <div class="bible-verse-section">
+                <p class="verse-reference" id="heroBibleVerse">Roma 5:3–4</p>
+                <p class="verse-text" id="heroBibleText">Tidak hanya itu saja, kita juga bergembira dalam berbagai pencobaan, karena kita tahu bahwa pencobaan itu menghasilkan ketekunan; dan ketekunan menghasilkan pengalaman hidup yang matang; dan pengalaman hidup yang matang menghasilkan pengharapan yang tidak membuahkan kekecewaan.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title" id="aboutTitle">About Me</h2>
+            
+            <div class="about-content">
+                <p id="aboutText1">
+                    Saya adalah seorang <span class="highlight">pejuang inspirasi nyata</span> yang percaya bahwa setiap tantangan adalah kesempatan untuk tumbuh. Perjalanan saya dimulai dari nol, dengan determinasi dan <span class="highlight">disiplin</span> sebagai fondasi.
+                </p>
+                
+                <p id="aboutText2">
+                    Melalui <span class="highlight">perjuangan konsisten</span>, saya telah belajar bahwa <span class="highlight">iman, kerja keras, dan konsistensi</span> adalah kunci kesuksesan. Setiap produk dan proyek yang saya buat adalah bukti nyata dari usaha dan dedikasi.
+                </p>
+                
+                <p id="aboutText3">
+                    Saya percaya pada <span class="highlight">inspirasi yang lahir dari usaha nyata</span>, bukan sekadar mimpi. Filosofi PIN adalah mengubah perjuangan menjadi power, dan power menjadi inspirasi untuk orang lain.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2 class="section-title" id="skillsTitle">Skills</h2>
+            
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <h3 id="skillTech">Technical Skills</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <span>Web Development (HTML, CSS, JS)</span>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 90%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>React & Modern Framework</span>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 80%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>UI/UX Design</span>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 75%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>Database & Backend</span>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 70%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <h3 id="skillSoft">Soft Skills</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <span>Discipline & Consistency</span>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 95%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>Problem Solving</span>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>Communication & Leadership</span>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 80%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span>Adaptability & Learning</span>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 90%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio">
+        <div class="container">
+            <h2 class="section-title" id="portfolioTitle">Portfolio</h2>
+            
+            <div class="portfolio-grid" id="portfolioGrid">
+                <!-- Portfolio cards will be inserted here by JavaScript -->
+            </div>
+
+            <div id="emptyPortfolioMsg" class="empty-message" style="display: none;">
+                <p id="noProjectsText">No projects yet. Admin can add projects from the admin panel.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Detail Modal -->
+    <div id="projectModal" class="modal" style="display: none;">
+        <div class="modal-content project-modal">
+            <span class="close" id="closeProjectModal">&times;</span>
+            
+            <div class="project-detail-container">
+                <img id="projectDetailImage" src="" alt="Project" class="project-detail-image">
+                
+                <div class="project-detail-content">
+                    <h2 id="projectDetailTitle"></h2>
+                    <p id="projectDetailSubtitle" class="project-subtitle"></p>
+                    <p id="projectDetailCategory" class="project-category"></p>
+                    
+                    <p id="projectDetailDescription" class="project-description"></p>
+                    
+                    <div class="files-section">
+                        <h3 id="projectFilesHeading">Project Files</h3>
+                        <ul id="projectFilesList" class="files-list">
+                            <!-- Files will be inserted here -->
+                        </ul>
+                    </div>
+
+                    <button id="downloadProjectBtn" class="btn btn-primary">Download Files</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title" id="contactTitle">Contact Me</h2>
+            
+            <div class="contact-grid">
+                <a href="mailto:your.email@example.com" class="contact-card" id="emailCard">
+                    <span class="contact-icon">✉️</span>
+                    <h3 id="emailLabel">Email</h3>
+                </a>
+                
+                <a href="https://wa.me/1234567890" class="contact-card" target="_blank" rel="noopener noreferrer" id="whatsappCard">
+                    <span class="contact-icon">💬</span>
+                    <h3 id="whatsappLabel">WhatsApp</h3>
+                </a>
+                
+                <a href="https://linkedin.com/in/yourprofile" class="contact-card" target="_blank" rel="noopener noreferrer" id="linkedinCard">
+                    <span class="contact-icon">💼</span>
+                    <h3 id="linkedinLabel">LinkedIn</h3>
+                </a>
+                
+                <a href="https://github.com/yourprofile" class="contact-card" target="_blank" rel="noopener noreferrer" id="githubCard">
+                    <span class="contact-icon">👨‍💻</span>
+                    <h3 id="githubLabel">GitHub</h3>
+                </a>
+                
+                <a href="https://instagram.com/yourprofile" class="contact-card" target="_blank" rel="noopener noreferrer" id="instagramCard">
+                    <span class="contact-icon">📸</span>
+                    <h3 id="instagramLabel">Instagram</h3>
+                </a>
+                
+                <a href="https://facebook.com/yourprofile" class="contact-card" target="_blank" rel="noopener noreferrer" id="facebookCard">
+                    <span class="contact-icon">👥</span>
+                    <h3 id="facebookLabel">Facebook</h3>
+                </a>
+                
+                <a href="https://tiktok.com/@yourprofile" class="contact-card" target="_blank" rel="noopener noreferrer" id="tiktokCard">
+                    <span class="contact-icon">🎵</span>
+                    <h3 id="tiktokLabel">TikTok</h3>
+                </a>
+            </div>
+
+            <div class="location-info">
+                <p id="locationLabel">📍 Jakarta, Indonesia</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <h3>PIN – PERJUANGAN INSPIRASI NYATA</h3>
+            <p id="footerName">Pinsensius Andreas</p>
+            <p id="footerYear"></p>
+            <p id="footerQuote">"Perjuangan hari ini adalah inspirasi besok."</p>
+            <div class="footer-accent"></div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
